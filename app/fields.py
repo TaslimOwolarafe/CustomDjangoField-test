@@ -15,7 +15,7 @@ class CircularCounterField(models.Field):
     def from_db_value(self, value, expression, connection):
         if value is None:
             return value
-        return CircularCounter(value)
+        return CircularCounter(start=int(value[0]), cycle_len=int(value[2]), value=int(value[-1]))
 
     def to_python(self, value):
         if isinstance(value, CircularCounter):
