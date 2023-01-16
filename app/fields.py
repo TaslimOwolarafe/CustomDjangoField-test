@@ -13,12 +13,21 @@ class CircularCounterField(models.Field):
     description = "Field to store CircularCounter instances"
 
     def from_db_value(self, value, expression, connection):
-        pass
+        if value is None:
+            return value
+        return CircularCounter(value)
 
     def to_python(self, value):
-        pass
+        if isinstance(value, CircularCounter):
+            return value
+        
+        if value is None:
+            return value
+
+        return CircularCounter(value)
 
     def get_prep_value(self, value, *args, **kwargs):
-        pass
+        dict_value = value.to_dict()
+        return f"{value.start}:{value.cycle_len}:{value.value}"
 
 
