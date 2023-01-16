@@ -27,7 +27,6 @@ class CircularCounterField(models.Field):
         return CircularCounter(value)
 
     def get_prep_value(self, value, *args, **kwargs):
-        dict_value = value.to_dict()
         return f"{value.start}:{value.cycle_len}:{value.value}"
 
 
