@@ -15,7 +15,11 @@ class CircularCounterField(models.Field):
     def from_db_value(self, value, expression, connection):
         if value is None:
             return value
-        return CircularCounter(start=int(value[0]), cycle_len=int(value[2]), value=int(value[4]))
+        nums = value.split(':')
+        try:
+            return CircularCounter(start=int(nums[0]), cycle_len=int(nums[1]), value=int(nums[2]))
+        except:
+            raise ValidationError("invalid literal for int()")
 
     def to_python(self, value):
         if isinstance(value, CircularCounter):
